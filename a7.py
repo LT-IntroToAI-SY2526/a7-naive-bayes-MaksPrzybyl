@@ -14,7 +14,7 @@ class BayesClassifier:
         neg_file_prefix - prefix of negative reviews
         pos_file_prefix - prefix of positive reviews
     """
-
+    
     def __init__(self):
         """Constructor initializes and trains the Naive Bayes Sentiment Classifier. If a
         cache of a trained classifier is stored in the current folder it is loaded,
@@ -31,14 +31,14 @@ class BayesClassifier:
 
         # check if both cached classifiers exist within the current directory
         if os.path.isfile(self.pos_filename) and os.path.isfile(self.neg_filename):
-            print("Data files found - loading to use cached values...")
+            print("Data files found - loading to use cached values...+")
             self.pos_freqs = self.load_dict(self.pos_filename)
             self.neg_freqs = self.load_dict(self.neg_filename)
         else:
             print("Data files not found - running training...")
             self.train()
 
-    def train(self) -> None:
+    def train(self): #-> None:
         """Trains the Naive Bayes Sentiment Classifier
 
         Train here means generates `pos_freq/neg_freq` dictionaries with frequencies of
@@ -66,10 +66,14 @@ class BayesClassifier:
         # enumerate function, which loops over something and has an automatic counter.
         # write something like this to track progress (note the `# type: ignore` comment
         # which tells mypy we know better and it shouldn't complain at us on this line):
-        # for index, filename in enumerate(files, 1): # type: ignore
-        #     print(f"Training on file {index} of {len(files)}")
-        #     <the rest of your code for updating frequencies here>
-
+        for index, filename in enumerate(files, 1): # type: ignore
+            print(f"Training on file {index} of {len(files)}")
+        #<the rest of your code for updating frequencies here>
+            print(f"{index}: {filename}")
+            text = self.load_file(os.path.join(self.training_data_directory, filename))
+            # print(text)
+            tokens = self.tokenize(text)
+            # print(tokens)
 
         # we want to fill pos_freqs and neg_freqs with the correct counts of words from
         # their respective reviews
@@ -98,6 +102,26 @@ class BayesClassifier:
         # avoid extra work in the future (using the save_dict method). The objects you
         # are saving are self.pos_freqs and self.neg_freqs and the filepaths to save to
         # are self.pos_filename and self.neg_filename
+            if filename.startswith(self.pos_file_prefix):
+                self.update_dict(tokens, self.pos_freqs)
+            elif filename.startswith(self.neg_file_prefix):
+                self.update_dict(tokens, self.neg_freqs)
+
+            
+
+            with open("sorted_stoplist.txt", "r", encoding="utf8") as f:
+                stoplist = f.read()
+            tokenize_stoplist = tokenize(stoplist)
+            # print(tokenize_stoplist)
+            freqs = {}
+            for word in words:
+                if word not in tokenize_stoplist:
+                    if word in freqs:
+                            freqs[word] += 1
+                    else:
+                            freqs[word] = 1
+        print(self.pos_freqs)
+           
 
     def classify(self, text: str) -> str:
         """Classifies given text as positive, or negative from calculating the
@@ -118,7 +142,7 @@ class BayesClassifier:
         # create some variables to store the positive and negative probability. since
         # we will be adding logs of probabilities, the initial values for the positive
         # and negative probabilities are set to 0
-        
+
 
         # get the sum of all of the frequencies of the features in each document class
         # (i.e. how many words occurred in all documents for the given class) - this
@@ -227,9 +251,9 @@ class BayesClassifier:
 
 if __name__ == "__main__":
     # uncomment the below lines once you've implemented `train` & `classify`
-    # b = BayesClassifier()
+    b = BayesClassifier()
     # a_list_of_words = ["I", "really", "like", "this", "movie", ".", "I", "hope", \
-    #                    "you", "like", "it", "too"]
+    #                     "you", "like", "it", "too"]
     # a_dictionary = {}
     # b.update_dict(a_list_of_words, a_dictionary)
     # assert a_dictionary["I"] == 2, "update_dict test 1"
