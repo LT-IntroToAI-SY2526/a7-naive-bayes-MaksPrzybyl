@@ -126,9 +126,9 @@ class BayesClassifier:
 
         
         # get a list of the individual tokens that occur in text
-        print(text)
+       # print(text)
         tokens = self.tokenize(text)
-        print(tokens)
+      #  print(tokens)
 
         # create some variables to store the positive and negative probability. since
         # we will be adding logs of probabilities, the initial values for the positive
@@ -153,10 +153,11 @@ class BayesClassifier:
         for token in tokens:
             pos_token_freq = self.pos_freqs.get(token, 0) + 1
 
-            pos_score += pos_token_freq / pos_total
+            pos_score += math.log(pos_token_freq / pos_total)
             print(f"word: {token}, pos_score running total {pos_score}")
 
             neg_token_freq = self.neg_freqs.get(token, 0) + 1
+            neg_score += math.log(neg_token_freq / neg_total)
             print(f"word: {token}, neg_score running total {neg_score}")
 
         # for debugging purposes, it may help to print the overall positive and negative
@@ -298,11 +299,11 @@ if __name__ == "__main__":
     print(f"P('terrible'| pos) {(b.pos_freqs['terrible']+1)/pos_denominator}")
     print(f"P('terrible'| neg) {(b.neg_freqs['terrible']+1)/neg_denominator}")
 
-    # # uncomment the below lines once you've implemented `classify`
-    # print("\nThe following should all be positive.")
-    # print(b.classify('I love computer science'))
-    # print(b.classify('this movie is fantastic'))
-    # print("\nThe following should all be negative.")
-    # print(b.classify('rainy days are the worst'))
-    # print(b.classify('computer science is terrible'))
+    # uncomment the below lines once you've implemented `classify`
+    print("\nThe following should all be positive.")
+    print(b.classify('I love computer science'))
+    print(b.classify('this movie is fantastic'))
+    print("\nThe following should all be negative.")
+    print(b.classify('rainy days are the worst'))
+    print(b.classify('computer science is terrible'))
     pass
