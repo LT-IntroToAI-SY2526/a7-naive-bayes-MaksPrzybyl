@@ -162,9 +162,9 @@ class BayesClassifier:
 
         # for debugging purposes, it may help to print the overall positive and negative
         # probabilities
-        
-
-        # determine whether positive or negative was more probable (i.e. which one was
+        print(f"Positive Probability: {pos_score}")
+        print(f"Negative Probability: {neg_score}")
+                # determine whether positive or negative was more probable (i.e. which one was
         # larger)
         
 
@@ -306,4 +306,15 @@ if __name__ == "__main__":
     print("\nThe following should all be negative.")
     print(b.classify('rainy days are the worst'))
     print(b.classify('computer science is terrible'))
+    print("\nThe following is to test out the method with each groups responses")
+    print(b.classify('Summer break is almost here.  I am super excited and I know that its going to be the best'))
+    print(b.classify('First movie to actually make me emotional in a very long time, Andy Weir with another absolute banger and Ryan Gosling with an all-time performance.'))
+    print(b.classify('What a fun ride! Definitely a must see after watching the first one. Two great movies that make an amazing series.'))
+    print(b.classify('“This action figure is absolutely incredible! I love the design”'))
+    print(b.classify('“I was worried this game would be lame, but it was really really good!”'))
+    print(b.classify("I am nervous that I won't do well on the AP tests.  I have studied, but I don't think I'll do that well"))
+    print(b.classify("High school totally sucks. It’s the absolute worst."))
+    print(b.classify('I thought this was gonna be great, but it was terrible'))
+    print(b.classify('The movie tries to be outrageous, but ends up just being lazy. The humor is repetitive, forced, and honestly outdated. What’s worse is how it portrays Brazil, full of clichés, exaggerations, and zero real effort to understand the country. A quick Google search would’ve given them a more accurate picture than this. It comes across as ridiculous and disrespectful. Messy script, weak jokes, and a completely superficial take on a place that deserves way better. ⭐ 2/10'))
+    print(b.classify('60% AI 40% Unnecessary Gore 100% Trash, the writers need to retire. What was this AI fever dream? It would of been better if you had just made the entire movie out of actual AI at this rate. This needs to be the last Scream, as a die hard fan. Stop. Retire poor Courtney and Neve. They dont need to be associated with this garb anymore.'))
     pass
